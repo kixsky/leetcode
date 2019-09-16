@@ -20,6 +20,8 @@ public class ZeroEvenOdd {
 
     private volatile int step = 1;
 
+    private volatile int lStep = 1;
+
     private volatile int cur = 0;
 
     public static void main(String[] args) throws Exception {
@@ -74,10 +76,20 @@ public class ZeroEvenOdd {
             if (cur != 0) zero.await(); //挂起
             if (count < 2 * n) {
                 printNumber.accept(0);
+            } else {
+                even.signalAll();
+                odd.signalAll();
+                lock.unlock();
+                return;
             }
             cur = 1;
             count++;
-            even.signalAll();
+
+            if (lStep % 2 == 0)
+                odd.signalAll();
+            else
+                even.signalAll();
+
             lock.unlock();
         }
     }
@@ -88,8 +100,13 @@ public class ZeroEvenOdd {
             if (cur != 1) even.await(); //挂起
             if (count < 2 * n) {
                 printNumber.accept(step);
+            } else {
+                zero.signalAll();
+                lock.unlock();
+                return;
             }
-            cur = 2;
+            lStep = step;
+            cur = 0;
             count++;
             step++;
             zero.signalAll();
@@ -103,7 +120,12 @@ public class ZeroEvenOdd {
             if (cur != 2) odd.await(); //挂起
             if (count < 2 * n) {
                 printNumber.accept(step);
+            } else {
+                zero.signalAll();
+                lock.unlock();
+                return;
             }
+            lStep = step;
             cur = 0;
             count++;
             step++;
