@@ -2,6 +2,18 @@ package com.company.linkedlist;
 
 public class MyLinkedList {
 
+
+    public static void main(String[] args) {
+        MyLinkedList linkedList = new MyLinkedList();
+        linkedList.addAtHead(1);
+        linkedList.addAtTail(3);
+        linkedList.addAtIndex(1, 2);
+        System.out.println(linkedList.get(1));
+        linkedList.deleteAtIndex(1);
+        System.out.println(linkedList.get(1));
+    }
+
+
     private ListNode head;
 
     private ListNode tail;
@@ -15,13 +27,8 @@ public class MyLinkedList {
 
     //返回索引下的值
     public int get(int index) {
-        ListNode h = head;
-        int count = 0;
-        while(h != null) {
-            h = h.next;
-            if (index == count) return h.val;
-            count++;
-        }
+        ListNode h = index(index);
+        if (h != null) return h.val;
         return -1;
     }
 
@@ -49,12 +56,13 @@ public class MyLinkedList {
             return;
         }
         ListNode temp = tail;
-        tail = new ListNode(val);
-        tail.next = temp;
+        tail.next = new ListNode(val);
+        tail = tail.next;
         size++;
     }
 
     public void addAtIndex(int index, int val) {
+        //index < 0
         if (index < 0) {
             addAtHead(val);
             return;
@@ -69,27 +77,19 @@ public class MyLinkedList {
             addAtHead(val);
             return;
         }
-        int count = 0;
-        ListNode h = head;
-        while(h.next != null) {
-            if (count == index) break;
-            h = h.next;
-            count++;
-        }
 
-        if (h == tail) {
-            addAtTail(val);
+        ListNode h = index(index);
+        if (h == null) return;
+
+        if (h == head) {
+            addAtHead(val);
             return;
         }
 
         //找h的前驱节点
-        ListNode h1 = head;
-        while(h1.next != h) {
-            h1 = h1.next;
-        }
-
-        h1 = new ListNode(val);
-        h1.next = h;
+        ListNode h1 = front(h);
+        h1.next = new ListNode(val);
+        h1.next.next = h;
         size++;
     }
 
@@ -107,12 +107,23 @@ public class MyLinkedList {
             return;
         }
 
+        //删除头结点
         if (h == head) {
             head = head.next;
             size--;
             return;
         }
 
+        //删除尾节点
+        if (h == tail) {
+            ListNode f = front(h);
+            f.next = null;
+            size--;
+            tail = f;
+            return;
+        }
+
+        //处理其他节点
         ListNode temp = front(h);
         temp.next = h.next;
         size--;
@@ -123,7 +134,7 @@ public class MyLinkedList {
         if (index < 0 || index >= size) return null;
         ListNode h = head;
         int count = 0;
-        while(h.next != null) {
+        while(h != null) {
             if (count == index) return h;
             h = h.next;
             count++;
