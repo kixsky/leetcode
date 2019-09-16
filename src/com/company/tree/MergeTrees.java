@@ -1,5 +1,7 @@
-package com.company;
+package com.company.tree;
 
+
+import com.company.tree.TreeNode;
 
 /**
  *
