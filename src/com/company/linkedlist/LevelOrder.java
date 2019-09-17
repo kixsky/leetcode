@@ -1,4 +1,4 @@
-package com.company;
+package com.company.linkedlist;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -42,12 +42,5 @@ public class LevelOrder {
 
     }
     return list;
-  }
-
-  public class TreeNode {
-    int val;
-    TreeNode left;
-    TreeNode right;
-    TreeNode(int x) { val = x; }
   }
 }

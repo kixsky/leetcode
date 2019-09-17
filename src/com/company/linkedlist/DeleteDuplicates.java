@@ -61,10 +61,4 @@ public class DeleteDuplicates {
     h1.next = null; //重组链表总是忘记这个
     return head;
   }
-
-  public static class ListNode {
-    int val;
-    ListNode next;
-    ListNode(int x) { val = x; }
-  }
 }
