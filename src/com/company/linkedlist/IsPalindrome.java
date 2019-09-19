@@ -1,4 +1,4 @@
-package com.company;
+package com.company.linkedlist;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -61,12 +61,5 @@ public class IsPalindrome {
 
     return true;
   }
-
-  public static class ListNode {
-    int val;
-    ListNode next;
-    ListNode(int x) { val = x; }
-  }
-
 
 }

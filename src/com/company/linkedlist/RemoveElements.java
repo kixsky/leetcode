@@ -1,4 +1,4 @@
-package com.company;
+package com.company.linkedlist;
 
 import java.util.LinkedList;
 import java.util.Queue;
